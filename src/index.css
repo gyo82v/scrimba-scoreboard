@@ -44,6 +44,12 @@
   button {
     @apply cursor-pointer;
   }
+  @font-face {
+    font-family: 'Digital7';
+    src: url('/fonts/digital-7.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
 }
 
 @layer utilities {
@@ -54,6 +60,9 @@
   }
   .shadow-all {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  .digital {
+    font-family: 'Digital7';
   }
 
 }
