@@ -1,11 +1,13 @@
 import { useState, useEffect, useRef } from "react"
+import { FaRegClock, FaClock, FaStopwatch, FaHourglassHalf } from 'react-icons/fa';
+import { MdAccessTime, MdTimer, MdHourglassEmpty } from 'react-icons/md';
+import { BiTimeFive, BiTimer } from 'react-icons/bi';
 
 import Scoreboard from "./components/Scoreboard"
 
 function App() {
   const [homeScore, setHomeScore] = useState(0)
   const [awayScore, setAwayScore] = useState(0)
-  //const START_TIME = 3 * 60
   const START_TIME = 3 * 60
   const [timeLeft, setTimeLeft] = useState(START_TIME)
   const [isRunning, setIsRunning] = useState(false)
@@ -17,7 +19,7 @@ function App() {
 
   //tailwind styles
 
-  const mainSec = `bg-stone-800 mx-auto mt-16 w-[600px] rounded-lg
+  const mainSec = `bg-stone-800 mx-auto mt-16 w-11/12 md:w-[600px] rounded-lg
                    flex flex-col items-center text-stone-400`
   const scoreboardsSec = `flex gap-18`
   const btn = `my-10 border-4 border-stone-400 rounded-lg shadow-lg shadow-stone-300/30 w-4/12
