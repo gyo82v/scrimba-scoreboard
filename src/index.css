@@ -68,5 +68,15 @@
 }
 
 @layer components {
- 
+  /* Hide number-input arrows in Chrome, Safari, Edge, Opera */
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button {
+    @apply appearance-none;
+    margin: 0; /* some browsers need this */
+  }
+
+  /* Hide number-input arrows in Firefox */
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
 }

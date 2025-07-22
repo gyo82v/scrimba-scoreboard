@@ -1,16 +1,16 @@
 import { useState, useEffect, useRef } from "react"
-import { FaRegClock, FaClock, FaStopwatch, FaHourglassHalf } from 'react-icons/fa';
-import { MdAccessTime, MdTimer, MdHourglassEmpty } from 'react-icons/md';
-import { BiTimeFive, BiTimer } from 'react-icons/bi';
+import { FaRegClock } from 'react-icons/fa';
 
 import Scoreboard from "./components/Scoreboard"
+import Btn from "./components/Btn";
 
 function App() {
   const [homeScore, setHomeScore] = useState(0)
   const [awayScore, setAwayScore] = useState(0)
-  const START_TIME = 3 * 60
-  const [timeLeft, setTimeLeft] = useState(START_TIME)
+  const [startTime, setStartTime] = useState(3 * 60)
+  const [timeLeft, setTimeLeft] = useState(startTime)
   const [isRunning, setIsRunning] = useState(false)
+  const [timeSec, setTimeSec] = useState(false)
   const timerRef = useRef(null)
 
   //winning conditions
@@ -21,12 +21,16 @@ function App() {
 
   const mainSec = `bg-stone-800 mx-auto mt-16 w-11/12 md:w-[600px] rounded-lg
                    flex flex-col items-center text-stone-400`
+  const headerSec = `flex mt-10 gap-4 `
   const scoreboardsSec = `flex gap-18`
   const btn = `my-10 border-4 border-stone-400 rounded-lg shadow-lg shadow-stone-300/30 w-4/12
                hover:transform hover:scale-115 active:scale-95 py-2 px-10
                font-bold text-lg bg-gradient-to-b from-stone-800 to-stone-700`
-  const title = `mt-10 text-xl font-bold`
-  
+  const title = `text-xl font-bold`
+  const inputTimer = `border border-stone-400 rounded-lg shadow-lg shadow-stone-300/20 font-semibold text-center
+                      bg-stone-700 transition-all duration-200 ease-in-out focus:outline-none
+                      focus:ring-2 focus:ring-stone-500 focus:bg-stone-600 focus:border-transparent
+                      hover:bg-stone-600`
   //
 
   useEffect(() => {
@@ -52,11 +56,11 @@ function App() {
       // “Reset game” clicked: stop & reset
       clearInterval(timerRef.current)
       setIsRunning(false)
-      setTimeLeft(START_TIME)
+      setTimeLeft(startTime)
       setAwayScore(0)
       setHomeScore(0)
     } else if(timeLeft === 0) {
-      setTimeLeft(START_TIME)
+      setTimeLeft(startTime)
       setAwayScore(0)
       setHomeScore(0)
     } else {
@@ -82,15 +86,44 @@ function App() {
     action === "subtract" ? setAwayScore(s => s - 1) :
     action === "reset" ? setAwayScore(0) : ""
   }
-  
+  const handleSetTimerClick = () => {
+    setTimeSec(t => !t)
+    setTimeLeft(startTime)
+
+  }
+  const handleChange = e => {
+    // remove ALL leading zeros, but keep a single "0" if they clear the field completely
+    const sanitized = e.target.value.replace(/^0+(?=\d)/, "");
+    setStartTime(sanitized === "" ? "" : Number(sanitized));
+  }
+
   return (
     <div className={mainSec}>
-      <h1 className={title}>{formatTime(timeLeft)}</h1>
+      <div className={headerSec}>
+        {timeSec ?
+         <>
+           <input 
+             type="number" 
+             placeholder="Enter seconds..." 
+             className={inputTimer}
+             value={startTime}
+             onChange={handleChange}
+          />
+           <Btn title="Set the Timer" onClick={handleSetTimerClick}>Set</Btn>
+         </>   : 
+         <>
+           <h1 className={title}>{formatTime(timeLeft)}</h1>
+           <Btn onClick={() => setTimeSec(t => !t)} disabled={isRunning} title="Set the timer" aria-label="set the timer">
+            <FaRegClock />
+           </Btn>
+         </>
+        }
+      </div>
       <div className={scoreboardsSec}>
         <Scoreboard title="Home" score={homeScore} handleScore={handleHomeScore} won={homeWon} isRunning={isRunning}/>
         <Scoreboard title="Away" score={awayScore} handleScore={handleAwayScore} won={awayWon} isRunning={isRunning} />
       </div>
-      <button className={btn} onClick={handleTimerButton}>
+      <button className={btn} onClick={handleTimerButton} disabled={timeSec}>
         {timeLeft <= 0 ? "Set Game" : isRunning ? "Reset Game" : "Start Game"}
       </button>
     </div>
