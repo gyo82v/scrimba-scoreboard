@@ -12,9 +12,9 @@ export default function Scoreboard({title, score, handleScore, won, isRunning}){
     const btnSec = `flex justify-center gap-2`
     
     return(
-        <div className={mainSec}>
-            <h1 className={titleStl}>{title}</h1>
-            <h1 className={scoreboard}>{score}</h1>
+        <section className={mainSec}>
+            <h2 className={titleStl}>{title}</h2>
+            <h3 className={scoreboard}>{score}</h3>
             <div className={btnSec}>
                 <Btn onClick={() => handleScore("add")} disabled={!isRunning}>+1</Btn>
                 <Btn onClick={() => handleScore("subtract")} disabled={!isRunning}>-1</Btn>
@@ -22,6 +22,6 @@ export default function Scoreboard({title, score, handleScore, won, isRunning}){
                     <FiRotateCw />
                 </Btn>
             </div>
-        </div>
+        </section>
     )
 }

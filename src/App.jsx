@@ -98,8 +98,8 @@ function App() {
   }
 
   return (
-    <div className={mainSec}>
-      <div className={headerSec}>
+    <main className={mainSec}>
+      <section className={headerSec}>
         {timeSec ?
          <>
            <input 
@@ -108,6 +108,7 @@ function App() {
              className={inputTimer}
              value={startTime}
              onChange={handleChange}
+             aria-label="Enter the amount of seconds"
           />
            <Btn title="Set the Timer" onClick={handleSetTimerClick}>Set</Btn>
          </>   : 
@@ -118,15 +119,15 @@ function App() {
            </Btn>
          </>
         }
-      </div>
-      <div className={scoreboardsSec}>
+      </section>
+      <section className={scoreboardsSec}>
         <Scoreboard title="Home" score={homeScore} handleScore={handleHomeScore} won={homeWon} isRunning={isRunning}/>
         <Scoreboard title="Away" score={awayScore} handleScore={handleAwayScore} won={awayWon} isRunning={isRunning} />
-      </div>
+      </section>
       <button className={btn} onClick={handleTimerButton} disabled={timeSec}>
         {timeLeft <= 0 ? "Set Game" : isRunning ? "Reset Game" : "Start Game"}
       </button>
-    </div>
+    </main>
   )
 }
 
